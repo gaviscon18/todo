@@ -14,11 +14,11 @@ function addTodo(e) {
     if (todoInput.value == "") {
         alert("Lütfen boş değer girmeyiniz!")
     } else {
-        todoArray.push({
+        const newTodo = {
             todo: todoInput.value,
             done: false
-        });
-
+        };
+        todoArray.push(newTodo);
         addTodoToUI(todoArray);
         addTodoToStorage(todoArray);
     }
@@ -75,11 +75,25 @@ function delTodos() {
     localStorage.setItem('strArray', JSON.stringify(storedArray));
 }
 
-function addTodoToStorage(todoArray) {
+function addTodoToStorage() {
     localStorage.setItem('strArray', JSON.stringify(todoArray));
 }
 
-function storageToUI(todoArray) {
-    const storedArray = JSON.parse(localStorage.getItem('strArray'));
+function storageToUI() {
+    const storedArray = getTodosFromStorage();
+    todoArray = storedArray;
     addTodoToUI(storedArray);
+}
+
+function getTodosFromStorage() { // Storagedan Todoları Alma
+
+    let storedArray;
+
+    if (localStorage.getItem("todos") === null) {
+        storedArray = [];
+    } else {
+        storedArray = JSON.parse(localStorage.getItem('strArray'));
+    }
+    return storedArray;
+
 }
